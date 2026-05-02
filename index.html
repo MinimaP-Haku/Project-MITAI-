@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Project MITAI Launcher</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            color: #00ffff;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #console {
+            width: 90%;
+            max-width: 600px;
+            transition: opacity 0.5s;
+            /* Zapewnia, że przy dużej ilości logów nie wyjdą poza ekran */
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .line {
+            margin-bottom: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid #00ffff;
+            width: fit-content;
+            animation: typing 1.2s steps(40, end), blink .75s step-end infinite;
+        }
+
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink { from, to { border-color: transparent } 50% { border-color: #00ffff } }
+
+        .btn-launch {
+            background: none;
+            border: 2px solid #00ffff;
+            color: #00ffff;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 20px;
+            display: none;
+            font-family: 'Courier New', Courier, monospace;
+            width: fit-content;
+            align-self: center;
+        }
+
+        .btn-launch:disabled {
+            border-color: #555;
+            color: #555;
+            cursor: wait;
+        }
+
+        #vbs-error {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            background-color: #f0f0f0;
+            border: 1px solid #000;
+            box-shadow: 2px 2px 0 #fff inset, -2px -2px 0 #808080 inset;
+            padding: 2px;
+            z-index: 10000;
+            color: #000;
+            font-family: "Tahoma", "Arial", sans-serif;
+        }
+
+        .error-title {
+            background: linear-gradient(90deg, #000080, #1084d0);
+            color: white;
+            padding: 3px 5px;
+            font-weight: bold;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .error-content {
+            padding: 20px 15px;
+            display: flex;
+            align-items: center;
+            font-size: 11px; /* Nieco mniejszy font dla lepszego dopasowania */
+        }
+
+        .error-icon {
+            background-color: #cc0000;
+            color: white;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .error-btn {
+            width: 80px;
+            margin: 0 auto 10px auto;
+            display: block;
+            border: 1px solid #000;
+            background: #e1e1e1;
+            padding: 4px;
+            box-shadow: 1px 1px 0 #fff inset, 1px 1px 2px rgba(0,0,0,0.3);
+            cursor: pointer;
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="console">
+        <div id="logs"></div>
+        <button id="launchBtn" class="btn-launch" onclick="checkAndLaunch()">INITIALIZE PROJECT</button>
+    </div>
+
+    <div id="vbs-error">
+        <div class="error-title">
+            <span>Project MITAI - System Error Code: M-0</span>
+            <span style="cursor:pointer" onclick="location.reload()">[X]</span>
+        </div>
+        <div class="error-content">
+            <div class="error-icon">X</div>
+            <div>Critical Error: 'title.html' not found in web/title/<br><br>Please reinstall the game to fix this issue.</div>
+        </div>
+        <button class="error-btn" onclick="location.reload()">OK</button>
+    </div>
+
+    <script>
+        const logs = [
+            "> M.I.T.A.I. OS v1.0.0...",
+            "> MEMORY CHECK: OK",
+            "> INITIALIZING BOOT SEQUENCE...",
+            "> CHECKING NEURAL NETWORK...",
+            "> LOADING CORE ASSETS...",
+            "> SYSTEM READY.",
+            "> NEURAL LINK: ESTABLISHED",
+            "> LOCATING TITLE MODULE...",
+            "> READY TO BOOT."
+        ];
+        let currentLine = 0;
+
+        function printLog() {
+            if (currentLine < logs.length) {
+                let div = document.createElement('div');
+                div.className = 'line';
+                div.innerText = logs[currentLine];
+                document.getElementById('logs').appendChild(div);
+                currentLine++;
+                setTimeout(printLog, 600);
+            } else {
+                document.getElementById('launchBtn').style.display = 'inline-block';
+            }
+        }
+
+        async function checkAndLaunch() {
+            const launchBtn = document.getElementById('launchBtn');
+            const consoleDiv = document.getElementById('console');
+            const errorDiv = document.getElementById('vbs-error');
+            
+            launchBtn.innerText = "VERIFYING MODULES...";
+            launchBtn.disabled = true;
+
+            try {
+                // Szukamy title.html zamiast index_title.html
+                const response = await fetch('web/title/title.html', { method: 'HEAD' });
+
+                if (response.ok) {
+                    consoleDiv.style.opacity = '0';
+                    setTimeout(() => {
+                        window.location.href = 'web/title/title.html';
+                    }, 500);
+                } else {
+                    throw new Error();
+                }
+            } catch (e) {
+                setTimeout(() => {
+                    consoleDiv.style.opacity = '0.2';
+                    errorDiv.style.display = 'block';
+                }, 1000);
+            }
+        }
+
+        window.onload = printLog;
+    </script>
+</body>
+</html>
