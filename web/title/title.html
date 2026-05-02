@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project MITAI - Title</title>
+    <link rel="stylesheet" href="style_title.css">
+</head>
+<body>
+    <div id="notice-alpha" class="full-modal">
+        <div class="modal-box">
+            <h1>NOTICE: ALPHA BUILD</h1>
+            <p>This is an early Alpha version of Project MITAI. Bugs and performance issues may occur during gameplay.</p>
+            <p class="click-hint">[ CLICK TO ACKNOWLEDGE ]</p>
+        </div>
+    </div>
+    <div id="notice-save" class="full-modal" style="display: none;">
+        <div class="modal-box">
+            <h1>WARNING: MANUAL SAVE</h1>
+            <p>Autosave is not implemented in this build. You must save your progress manually or it will be lost.</p>
+            <p class="click-hint">[ CLICK TO PROCEED ]</p>
+        </div>
+    </div>
+    <audio id="bgMusic" src="../../assets/sounds/music/title_screen_01.mp3" loop></audio>
+    <div id="title-screen">
+        <div class="content">
+            <img src="../../assets/textures/project_mitai_logo.png" alt="Logo" class="logo">
+            <br>
+            <button id="playBtn" class="cyber-button">START PROJECT</button>
+        </div>
+        <div class="version-tag">Alpha 1.0</div>
+    </div>
+    <script src="script_title.js"></script>
+</body>
+</html>
