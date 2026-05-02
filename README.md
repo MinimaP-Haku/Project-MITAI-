@@ -1,6 +1,6 @@
 #Project MITAI (三田井) - Alpha Build
 
-![Version](https://img.shields.io/badge/Version-1.0.0--Alpha-red)
+![Version](https://img.shields.io/badge/Version-0.1.0--Alpha-red)
 ![Status](https://img.shields.io/badge/Status-In--Development-cyan)
 
 **Project MITAI** is an experimental web project currently in the early Alpha phase. It focuses on unique UI/UX design, interactive elements, and a stylized audiovisual experience.
