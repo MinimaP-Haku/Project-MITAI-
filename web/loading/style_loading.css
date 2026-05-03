@@ -66,3 +66,37 @@ h1 {
     font-family: 'Courier New', Courier, monospace;
     text-transform: uppercase;
 }
+
+.click-effect-classic {
+    position: absolute;
+    pointer-events: none;
+    z-index: 9999;
+    width: 640px;
+    height: 640px;
+    background-image: url('../../assets/textures/ui/click_effect/classic/click_effect_sprite.png');
+    background-repeat: no-repeat;
+    transform: translate(-50%, -50%) scale(0.2);
+    animation: clickPlay 0.5s steps(1) forwards;
+}
+
+@keyframes clickPlay {
+    0% { background-position: -1px -1px; }
+    8.3% { background-position: -643px -1px; }
+    16.6% { background-position: -1285px -1px; }
+    25% { background-position: -1927px -1px; }
+    33.3% { background-position: -1px -643px; }
+    41.6% { background-position: -643px -643px; }
+    50% { background-position: -1285px -643px; }
+    58.3% { background-position: -1927px -643px; }
+    66.6% { background-position: -1px -1285px; }
+    75% { background-position: -643px -1285px; }
+    83.3% { background-position: -1285px -1285px; }
+    91.6% { background-position: -1927px -1285px; }
+    100% { background-position: -1927px -1285px; opacity: 0; }
+}
+
+@media (max-width: 600px) {
+    .click-effect-classic {
+        transform: translate(-50%, -50%) scale(0.15);
+    }
+}
