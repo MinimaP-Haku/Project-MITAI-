@@ -2,6 +2,10 @@ const progressFill = document.getElementById('progress-fill');
 const detailsText = document.getElementById('loading-details');
 const statusText = document.getElementById('status-text');
 const notice = document.getElementById('notice-unfinished');
+const music = document.getElementById('loadingMusic');
+const sndNotify = document.getElementById('sndNotify');
+const sndAccept = document.getElementById('sndAccept');
+
 const loadingSteps = [
     "Decrypting neural links...",
     "Connecting to 三田井 servers...",
@@ -10,18 +14,48 @@ const loadingSteps = [
     "Finalizing environment...",
     "ERROR: Section not found!"
 ];
+
 let progress = 0;
 let stepIndex = 0;
+
+function playSfx(audioElement) {
+    if (audioElement) {
+        if (music) music.volume = 0.15;
+        audioElement.currentTime = 0;
+        audioElement.volume = 1.0;
+        audioElement.play().catch(() => {});
+        
+        setTimeout(() => {
+            if (music && notice.style.display === 'flex') music.volume = 0.3;
+        }, 1000);
+    }
+}
+
+function handleReturn() {
+    playSfx(sndAccept);
+    setTimeout(() => {
+        window.location.href = '../title/title.html';
+    }, 400);
+}
+
 function simulateLoading() {
+    if (progress === 0 && music) {
+        music.volume = 0.5;
+        music.play().catch(() => {});
+    }
+
     progress += Math.random() * 5;
     if (progress > 100) progress = 100;
+    
     progressFill.style.width = progress + "%";
+    
     if (progress > (stepIndex + 1) * (100 / loadingSteps.length)) {
         if (stepIndex < loadingSteps.length - 1) {
             detailsText.innerText = loadingSteps[stepIndex];
             stepIndex++;
         }
     }
+    
     if (progress < 100) {
         setTimeout(simulateLoading, 100);
     } else {
@@ -29,7 +63,23 @@ function simulateLoading() {
         setTimeout(() => {
             document.getElementById('loading-container').style.display = 'none';
             notice.style.display = 'flex';
+            playSfx(sndNotify);
         }, 1000);
     }
 }
+
 window.onload = simulateLoading;
+
+document.addEventListener('click', (e) => {
+    const effect = document.createElement('div');
+    effect.className = 'click-effect-classic';
+    
+    effect.style.left = e.pageX + 'px';
+    effect.style.top = e.pageY + 'px';
+    
+    document.body.appendChild(effect);
+    
+    setTimeout(() => {
+        effect.remove();
+    }, 500);
+});
