@@ -17,12 +17,19 @@
     <div id="notice-unfinished" class="full-modal" style="display: none;">
         <div class="modal-box">
             <h1>SYSTEM MESSAGE</h1>
-            <p>Access denied. This section has not been implemented in Build 0.1.0-alpha.</p>
+            <p>Access denied. This section has not been implemented in Build 0.1.1-alpha.</p>
             <p>Please check for future updates.</p>
             <br>
-            <button onclick="window.location.href='../title/title.html'" class="cyber-button">RETURN TO TITLE</button>
+            <button onclick="handleReturn()" class="cyber-button">RETURN TO TITLE</button>
         </div>
     </div>
+
+    <audio id="loadingMusic" loop>
+        <source src="../../assets/sounds/music/loading.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sndNotify" src="../../assets/sounds/ui/notification/notification_received_01.wav"></audio>
+    <audio id="sndAccept" src="../../assets/sounds/ui/notification/notification_accept_01.wav"></audio>
+
     <script src="script_loading.js"></script>
 </body>
 </html>
